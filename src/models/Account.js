@@ -1,0 +1,42 @@
+import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
+
+const schema = mongoose.Schema({
+  account_name: {
+    index: true,
+    type: String,
+    required: true,
+    lowercase: true,
+    unique: true
+  },
+  current_balance: {
+    type: Number,
+    required: true
+  },
+}, { timestamps: true });
+
+// schema.methods.setPassword = function setPassword(password) {
+//   this.passwordHash = bcrypt.hashSync(password, 10);
+// };
+
+// schema.methods.isValidPassword = function isValidPassword(password) {
+//   return bcrypt.compareSync(password, this.passwordHash);
+// };
+
+// schema.methods.generateJWT = function generateJWT() {
+//   return jwt.sign({
+//     email: this.email
+//   }, process.env.JWT_SECRET);
+// };
+
+// schema.methods.toAuthJSON = function toAuthJSON() {
+//   return {
+//     email: this.email,
+//     confirmed: this.confirmed,
+//     token: this.generateJWT()
+//   }
+// };
+
+schema.plugin(uniqueValidator, { message: "Este e-mail já está está cadastrado." });
+
+export default mongoose.model('User', schema);
